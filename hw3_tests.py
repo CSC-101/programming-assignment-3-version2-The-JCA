@@ -2,6 +2,7 @@ import data
 import build_data
 import unittest
 
+import hw3
 
 # These two values are defined to support testing below. The
 # data within these structures should not be modified. Doing
@@ -180,29 +181,146 @@ class TestCases(unittest.TestCase):
 
     # Part 1
     # test population_total
-
+    def test_pop_total(self):
+        result=hw3.population_total(reduced_data)
+        self.assertEqual(655813,result)
+    def test_pop_total2(self):
+        result=hw3.population_total(full_data)
+        self.assertEqual(318857056,result)
     # Part 2
     # test filter_by_state
+    def test_filter_state(self):
+        result=hw3.filter_by_state(full_data,'CA')
+        self.assertEqual(58,len(result))
+
+    def test_filter_state2(self):
+        result=hw3.filter_by_state(full_data,'RI')
+        self.assertEqual(5,len(result))
 
     # Part 3
     # test population_by_education
-    # test population_by_ethnicity
-    # test population_below_poverty_level
+    def test_tot_pop(self):
+        l=[reduced_data[2]]
+        result=hw3.population_by_education(l,"Bachelor's Degree or Higher")
+        self.assertAlmostEqual(87911.145,result,2)
 
+    def test_tot_pop2(self):
+        l=[reduced_data[2]]
+        result=hw3.population_by_education(l,"Master's Degree or Higher")
+        self.assertEqual(0,result)
+    # test population_by_ethnicity
+    def test_tot_ethnic(self):
+        l = [reduced_data[2],reduced_data[0]]
+        result = hw3.population_by_ethnicity(l, "Two or More Races")
+        self.assertAlmostEqual(10485.932, result,2)
+
+    def test_tot_ethnic2(self):
+        l = [reduced_data[2],reduced_data[0]]
+        result = hw3.population_by_ethnicity(l, "More Races")
+        self.assertEqual(0, result)
+    # test population_below_poverty_level
+    def test_tot_poverty(self):
+        l = [reduced_data[0]]
+        result = hw3.population_below_poverty_level(l)
+        self.assertAlmostEqual(6702.795, result,2)
+
+    def test_tot_poverty2(self):
+        l = [reduced_data[2]]
+        result = hw3.population_below_poverty_level(l)
+        self.assertAlmostEqual(39908.869, result,2)
     # Part 4
     # test percent_by_education
-    # test percent_by_ethnicity
-    # test percent_below_poverty_level
+    def test_percent_edu(self):
+        l=[reduced_data[2]]
+        result = hw3.percent_by_education(l,"Bachelor's Degree or Higher")
+        self.assertAlmostEqual(31.5,result,2)
 
+    def test_percent_edu2(self):
+        l=reduced_data
+        result = hw3.percent_by_education(l,"Master's Degree or Higher")
+        self.assertAlmostEqual(0.0,result)
+    # test percent_by_ethnicity
+    def test_percent_eth(self):
+        l = reduced_data
+        result = hw3.percent_by_ethnicity(l, "Hispanic or Latino")
+        self.assertAlmostEqual(20.7952, result,2)
+
+    def test_percent_eth2(self):
+        l = reduced_data
+        result = hw3.percent_by_ethnicity(l, "French")
+        self.assertAlmostEqual(0.0, result,2)
+    # test percent_below_poverty_level
+    def test_perc_poverty(self):
+        l = [reduced_data[2]]
+        result = hw3.percent_below_poverty_level(l)
+        self.assertAlmostEqual(14.3,result,2)
+
+    def test_perc_poverty2(self):
+        l = reduced_data
+        result = hw3.percent_below_poverty_level(l)
+        self.assertAlmostEqual(16.42,result,2)
     # Part 5
     # test education_greater_than
+    def test_edu_great(self):
+        l=[reduced_data[0],reduced_data[1],reduced_data[2]]
+        result=hw3.education_greater_than(l,"Bachelor's Degree or Higher",10)
+        self.assertEqual(l,result)
+
+    def test_edu_great2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.education_greater_than(l, "Bachelor's Degree or Higher", 30)
+        self.assertEqual([l[2]], result)
     # test education_less_than
+    def test_edu_less(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.education_lesser_than(l, "Bachelor's Degree or Higher", 30)
+        self.assertEqual([l[0],l[1]], result)
+
+    def test_edu_less2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.education_lesser_than(l, "Bachelor's Degree or Higher", 34)
+        self.assertEqual(l,result)
+
     # test ethnicity_greater_than
+    def test_eth_great(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.ethnicity_greater_than(l, "Black Alone", 10)
+        self.assertEqual([l[0]], result)
+
+    def test_eth_great2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.ethnicity_greater_than(l, "Black Alone", 1)
+        self.assertEqual(l, result)
     # test ethnicity_less_than
+    def test_eth_less(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.ethnicity_lesser_than(l, "Black Alone", 10)
+        self.assertEqual([l[1],l[2]], result)
+
+    def test_eth_less2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.ethnicity_lesser_than(l, "Black Alone", 30)
+        self.assertEqual(l, result)
     # test below_poverty_level_greater_than
+    def test_bpl_greater(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.below_poverty_level_greater_than(l,  10)
+        self.assertEqual(l, result)
+
+    def test_bpl_greater2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.below_poverty_level_greater_than(l,  15)
+        self.assertEqual([l[1]], result)
     # test below_poverty_level_less_than
+    def test_bpl_lesser(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.below_poverty_level_lesser_than(l,  10)
+        self.assertEqual([], result)
 
-
+    def test_bpl_lesser2(self):
+        l = [reduced_data[0], reduced_data[1], reduced_data[2]]
+        result = hw3.below_poverty_level_lesser_than(l,  13)
+        self.assertEqual([l[0]], result)
 
 if __name__ == '__main__':
     unittest.main()
